@@ -1,19 +1,28 @@
-import React, { Component } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import "./App.css"
+import React from 'react'
 
-class DateCalendar extends Component {
+
+class DateCalendar extends React.Component {
+
+    state = {
+        date: this.props.date
+    }
+
+    onChange = (date) => {
+        this.props.setDate(date)
+    }
 
     render() {
+        console.log(this.state.date)
         return (
-            <div className="calendar-container">
-                <main>
-                    <Calendar showWeekNumbers={false}/>
-                </main>
+            <div>
+                <Calendar
+                    onClickDay={this.onChange}
+                    value={this.state.date}
+                />
             </div>
         );
     }
 }
-
 export default DateCalendar

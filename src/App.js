@@ -1,17 +1,29 @@
 import './App.css';
 import React from 'react'
 import DateCalendar from "./DateCalendar";
+import {Calendar} from "react-calendar";
 
 
 class App extends React.Component {
 
     state = {
         calendarClicked: false,
-        date: '',
+        date: new Date(),
         party_size: 2,
+        time: "7:00 PM",
     }
 
     componentDidMount() {
+        this.setDate(new Date())
+    }
+
+    toggleCalendar = (e) => {
+        this.setState({
+            calendarClicked: !this.state.calendarClicked
+        })
+    }
+
+    setDate = (date) => {
         const full_months = [
             "January",
             "February",
@@ -35,32 +47,17 @@ class App extends React.Component {
             "Friday",
             "Saturday"
         ]
-        const today = new Date()
-        const month = full_months[today.getMonth()]
-        const day = today.getDate()
-        const day_of_week = full_weekday[today.getDay() + 1]
-        const year = today.getFullYear()
-        const date = day_of_week + ', ' + month + ' ' + day + ', ' + year
+
+        const month = full_months[date.getMonth()]
+        const day = date.getDate()
+        const day_of_week = full_weekday[date.getDay() + 1]
+        const year = date.getFullYear()
+        const friendly_date = day_of_week + ', ' + month + ' ' + day + ', ' + year
+
         this.setState({
+            friendly_date: friendly_date,
             date: date
         })
-    }
-
-    toggleCalendar = (e) => {
-        console.log(e.target.className)
-        if (e.target.className === "App") {
-            this.setState({
-                calendarClicked: false
-            })
-        } else if (e.target.className === "calendar-wrapper") {
-            this.setState({
-                calendarClicked: !this.state.calendarClicked
-            })
-        } else {
-            this.setState({
-                calendarClicked: false
-            })
-        }
     }
 
     onChangeHandler = (e) => {
@@ -68,29 +65,36 @@ class App extends React.Component {
             this.setState({
                 party_size: e.target.value
             })
+        } else if (e.target.name === "time") {
+            this.setState({
+                time: e.target.value
+            })
         }
     }
 
     onSubmitHandler = (e) => {
         e.preventDefault()
-        console.log(this.state)
     }
 
     render(){
-      return (
-          <div className="App" onClick={this.toggleCalendar}>
-              <div className="wrapper">
-                  <div className="header">
-                      TableHost
-                  </div>
-                  <form onSubmit={this.onSubmitHandler} >
-                      <div className="calendar-wrapper" onClick={this.toggleCalendar}>
-                          {String(this.state.date)}
-                          {this.state.calendarClicked ? <DateCalendar
-                              date={this.state.date} setDate={this.setDate} toggleCalendar={this.toggleCalendar}/> : null}
-                      </div>
-                      <div className="party-size">
-                          <select name="party-size" value={this.state.party_size || ''} onChange={this.onChangeHandler}>
+        console.log(this.state.date)
+        return (
+            <div className="App">
+
+                <div className="wrapper">
+                    <div className="header">
+                        TableHost
+                    </div>
+                    <form onSubmit={this.onSubmitHandler} >
+                        <div className="calendar-wrapper" onClick={this.toggleCalendar}>
+                            {String(this.state.friendly_date)}
+                            {this.state.calendarClicked ? <DateCalendar date={this.state.date} setDate={this.setDate}/> : null}
+                        </div>
+                        <div className="party-size">
+                            <select
+                                name="party-size"
+                                value={this.state.party_size || ''}
+                                onChange={this.onChangeHandler}>
                               <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
@@ -112,18 +116,36 @@ class App extends React.Component {
                               <option value="19">19</option>
                               <option value="20">20</option>
                           </select>
-                      </div>
-                  </form>
-              </div>
-          </div>
-
-
-
-      )
-  }
-
-
-
+                        </div>
+                        <div className="time">
+                            <select name="time" value={this.state.time || ''} onChange={this.onChangeHandler}>
+                              <option value="5:00 PM">5:00 PM</option>
+                              <option value="5:15 PM">5:15 PM</option>
+                              <option value="5:30 PM">5:30 PM</option>
+                              <option value="5:45 PM">5:45 PM</option>
+                              <option value="6:00 PM">6:00 PM</option>
+                              <option value="6:15 PM">6:15 PM</option>
+                              <option value="6:30 PM">6:30 PM</option>
+                              <option value="6:45 PM">6:45 PM</option>
+                              <option value="7:00 PM">7:00 PM</option>
+                              <option value="7:15 PM">7:15 PM</option>
+                              <option value="7:30 PM">7:30 PM</option>
+                              <option value="7:45 PM">7:45 PM</option>
+                              <option value="8:00 PM">8:00 PM</option>
+                              <option value="8:15 PM">8:15 PM</option>
+                              <option value="8:30 PM">8:30 PM</option>
+                              <option value="8:45 PM">8:45 PM</option>
+                              <option value="9:00 PM">9:00 PM</option>
+                              <option value="9:15 PM">9:15 PM</option>
+                              <option value="9:30 PM">9:30 PM</option>
+                              <option value="9:45 PM">9:45 PM</option>
+                          </select>
+                        </div>
+                        <input type="submit" value="Find a Table" />
+                    </form>
+                </div>
+            </div>
+        )}
 }
 
 export default App;
