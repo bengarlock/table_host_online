@@ -11,6 +11,7 @@ class App extends React.Component {
         date: new Date(),
         party_size: 2,
         time: "7:00 PM",
+        render_search_results: false
     }
 
     componentDidMount() {
@@ -48,9 +49,10 @@ class App extends React.Component {
             "Saturday"
         ]
 
+        date = new Date(date)
         const month = full_months[date.getMonth()]
         const day = date.getDate()
-        const day_of_week = full_weekday[date.getDay() + 1]
+        const day_of_week = full_weekday[date.getDay()]
         const year = date.getFullYear()
         const friendly_date = day_of_week + ', ' + month + ' ' + day + ', ' + year
 
@@ -76,8 +78,25 @@ class App extends React.Component {
         e.preventDefault()
     }
 
+    toggleSearchResults = () => {
+        this.setDate({
+            render_search_results: !this.state.render_search_results
+        })
+    }
+
+    renderSearchResults = () => {
+        let date = this.state.date
+
+        // let url = "http://www.bengarlock.com:8080/books?date=" +
+        //     (date.getFullYear() + '-' + ('0' + (date.getMonth()+1)).slice(-2) +
+        //         '-' + ('0' + date.getDate()).slice(-2))
+
+        console.log(date)
+
+
+    }
+
     render(){
-        console.log(this.state.date)
         return (
             <div className="App">
 
@@ -141,8 +160,16 @@ class App extends React.Component {
                               <option value="9:45 PM">9:45 PM</option>
                           </select>
                         </div>
-                        <input type="submit" value="Find a Table" />
+                        <input type="submit" value="Find a Table" onClick={this.toggleSearchResults}/>
                     </form>
+                    <div className='search-results'>
+
+                        {this.state.render_search_results ? this.renderSearchResults(): null}
+
+                    </div>
+
+
+
                 </div>
             </div>
         )}
