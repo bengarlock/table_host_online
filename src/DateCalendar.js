@@ -5,12 +5,8 @@ import React from 'react'
 
 class DateCalendar extends React.Component {
 
-    state = {
-        date: this.props.date
-    }
-
     onChange = (date) => {
-        this.props.setDate(date)
+        this.props.setDate(new Date(date))
     }
 
     render() {
@@ -18,7 +14,7 @@ class DateCalendar extends React.Component {
             <div>
                 <Calendar
                     onClickDay={this.onChange}
-                    value={this.state.date}
+                    value={this.props.date}
                 />
             </div>
         );

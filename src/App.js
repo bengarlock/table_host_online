@@ -1,12 +1,13 @@
 import './App.css';
 import React from 'react'
 import DateCalendar from "./DateCalendar";
-import {Calendar} from "react-calendar";
+import Calendar from "react-calendar";
 
 
 class App extends React.Component {
 
     state = {
+        url: "http://127.0.0.1:8000/",
         calendarClicked: false,
         date: new Date(),
         party_size: 2,
@@ -15,7 +16,9 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.setDate(new Date())
+        this.setState({
+            date: new Date()
+        }, () => this.setDate(this.state.date))
     }
 
     toggleCalendar = (e) => {
@@ -25,6 +28,7 @@ class App extends React.Component {
     }
 
     setDate = (date) => {
+
         const full_months = [
             "January",
             "February",
@@ -49,20 +53,25 @@ class App extends React.Component {
             "Saturday"
         ]
 
-        date = new Date(date)
-        const month = full_months[date.getMonth()]
-        const day = date.getDate()
-        const day_of_week = full_weekday[date.getDay()]
-        const year = date.getFullYear()
-        const friendly_date = day_of_week + ', ' + month + ' ' + day + ', ' + year
+        console.log(date)
+        let new_date = new Date(date)
 
-        this.setState({
-            friendly_date: friendly_date,
-            date: date
-        })
+        if (typeof new_date === 'object') {
+
+            const month = full_months[new_date.getMonth()]
+            const day = new_date.getDate()
+            const day_of_week = full_weekday[new_date.getDay()]
+            const year = new_date.getFullYear()
+            const friendly_date = day_of_week + ', ' + month + ' ' + day + ', ' + year
+            this.setState({
+                friendly_date: friendly_date,
+                date: new_date
+            })
+        }
     }
 
     onChangeHandler = (e) => {
+        console.log(e)
         if (e.target.name === 'party-size') {
             this.setState({
                 party_size: e.target.value
@@ -71,11 +80,27 @@ class App extends React.Component {
             this.setState({
                 time: e.target.value
             })
+        } else if (e.target.name === "date") {
+
+            this.setState({
+                date: e.target.value
+            })
         }
     }
 
     onSubmitHandler = (e) => {
         e.preventDefault()
+        console.log(this.state.date)
+
+        // let date = this.state.date
+        // console.log(date)
+        // let url = this.state.url + "books/" + (date.getFullYear() + '-' +
+        //     ('0' + (date.getMonth()+1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2))
+        // fetch(url)
+        //     .then(res=> res.json())
+        //     .then(console.log)
+
+
     }
 
     toggleSearchResults = () => {
@@ -85,30 +110,24 @@ class App extends React.Component {
     }
 
     renderSearchResults = () => {
-        let date = this.state.date
-
-        // let url = "http://www.bengarlock.com:8080/books?date=" +
-        //     (date.getFullYear() + '-' + ('0' + (date.getMonth()+1)).slice(-2) +
-        //         '-' + ('0' + date.getDate()).slice(-2))
-
-        console.log(date)
-
 
     }
 
     render(){
+        console.log(this.state.date)
         return (
             <div className="App">
-
                 <div className="wrapper">
                     <div className="header">
                         TableHost
                     </div>
                     <form onSubmit={this.onSubmitHandler} >
-                        <div className="calendar-wrapper" onClick={this.toggleCalendar}>
-                            {String(this.state.friendly_date)}
-                            {this.state.calendarClicked ? <DateCalendar date={this.state.date} setDate={this.setDate}/> : null}
-                        </div>
+                        {/*<div className="calendar-wrapper" onClick={this.toggleCalendar}>*/}
+                        {/*    {String(this.state.friendly_date)}*/}
+                        {/*    {this.state.calendarClicked ? <DateCalendar date={this.state.date} setDate={this.setDate}/> : null}*/}
+                        {/*</div>*/}
+
+                    <Calendar onChange={this.setDate} value={this.state.date} name="date" />
                         <div className="party-size">
                             <select
                                 name="party-size"
@@ -163,13 +182,8 @@ class App extends React.Component {
                         <input type="submit" value="Find a Table" onClick={this.toggleSearchResults}/>
                     </form>
                     <div className='search-results'>
-
                         {this.state.render_search_results ? this.renderSearchResults(): null}
-
                     </div>
-
-
-
                 </div>
             </div>
         )}
