@@ -3,12 +3,14 @@ import React from 'react'
 import DateCalendar from "./DateCalendar";
 import Calendar from "react-calendar";
 import Slot from "./Slot";
+import GuestForm from "./GuestForm";
 
 
 class App extends React.Component {
 
     state = {
         url: "http://www.bengarlock.com:8080",
+        slot_id: '',
         calendarClicked: false,
         date: new Date(),
         party_size: 2,
@@ -85,9 +87,10 @@ class App extends React.Component {
         }
     }
 
-    toggleSearchResults = () => {
-        this.setDate({
-            render_search_results: !this.state.render_search_results
+    toggleGuestForm = (slotId) => {
+        this.setState({
+            render_guest_form: !this.state.render_guest_form,
+            slot_id: slotId
         })
     }
 
@@ -119,13 +122,11 @@ class App extends React.Component {
         const timeCheck = partySizeCheck.filter(slot => slot.time === this.state.time)
         if (timeCheck[0]) {
             let final = timeCheck[0]
-            return <Slot key={final.id} slot={final} />
+            return <Slot key={final.id} slot={final} toggleGuestForm={this.toggleGuestForm} />
         } else {
             return <div className="no-available">No Available Tables</div>
         }
     }
-
-
 
 
     render(){
@@ -196,6 +197,9 @@ class App extends React.Component {
                     <div className='search-results'>
                         {this.renderSlots()}
                     </div>
+                    {this.state.render_guest_form ? <GuestForm
+                        key={this.state.slot_id}
+                        slotId={this.state.slot_id} toggleGuestForm={this.toggleGuestForm}/> : null}
                 </div>
             </div>
         )}
