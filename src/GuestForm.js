@@ -78,9 +78,6 @@ class GuestForm extends React.Component {
             .then()
     }
 
-
-
-
     render() {
         return(
             <div id="overlay">
@@ -100,8 +97,6 @@ class GuestForm extends React.Component {
                             <input name="submit" type="submit"/>
 
                         </form>
-
-
                     </div>
             </div>
         )
