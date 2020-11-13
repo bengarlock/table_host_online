@@ -88,3 +88,8 @@
   transform: translate(100%, 50%);
 
 }
+.no-available {
+  color: white;
+  font-size: 25px;
+  transform: translate(17%, 85%);
+}

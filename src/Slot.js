@@ -3,10 +3,15 @@ import "./App.css"
 
 class Slot extends React.Component {
 
+    onClickHandler = () => {
+        console.log(this.props.slot.id)
+    }
+
+
     render() {
         return(
             <div className="time-result">
-                <button>{this.props.slot.time}</button>
+                <button onClick={this.onClickHandler}>{this.props.slot.time}</button>
             </div>
         )
     }

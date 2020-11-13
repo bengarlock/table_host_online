@@ -13,7 +13,7 @@ class App extends React.Component {
         date: new Date(),
         party_size: 2,
         time: "7:00 PM",
-        render_search_results: false,
+        render_guest_form: false,
         slots: [],
     }
 
@@ -85,7 +85,6 @@ class App extends React.Component {
         }
     }
 
-
     toggleSearchResults = () => {
         this.setDate({
             render_search_results: !this.state.render_search_results
@@ -115,11 +114,18 @@ class App extends React.Component {
 
 
         const bookedCheck = this.state.slots.filter(slot => slot.booked === false)
+
         const partySizeCheck = bookedCheck.filter(slot => slot.party_size === this.state.party_size)
         const timeCheck = partySizeCheck.filter(slot => slot.time === this.state.time)
-        const final = [...new Set(timeCheck)]
-        return final.map(slot => <Slot key={slot.id} slot={slot} />)
+        if (timeCheck[0]) {
+            let final = timeCheck[0]
+            return <Slot key={final.id} slot={final} />
+        } else {
+            return <div className="no-available">No Available Tables</div>
+        }
     }
+
+
 
 
     render(){
@@ -130,12 +136,11 @@ class App extends React.Component {
                         TableHost
                     </div>
                     <form>
-                        {/*<div className="calendar-wrapper" onClick={this.toggleCalendar}>*/}
-                        {/*    {String(this.state.friendly_date)}*/}
-                        {/*    {this.state.calendarClicked ? <DateCalendar date={this.state.date} setDate={this.setDate}/> : null}*/}
-                        {/*</div>*/}
-
-                    <Calendar onChange={this.setDate} value={this.state.date} name="date" />
+                        <div className="calendar-wrapper" onClick={this.toggleCalendar}>
+                            {String(this.state.friendly_date)}
+                            {this.state.calendarClicked ? <DateCalendar date={this.state.date} setDate={this.setDate}/> : null}
+                        </div>
+                        {/*<Calendar onChange={this.setDate} value={this.state.date} name="date" />*/}
                         <div className="party-size">
                             <select
                                 name="party-size"
