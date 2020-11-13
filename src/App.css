@@ -3,95 +3,96 @@
 }
 
 .App {
-  width: 100%;
-  height: 100%;
-  position: absolute;
+    width: 100%;
+    height: 100%;
+    position: absolute;
 }
 
 .wrapper {
-  position: absolute;
-  width: 300px;
-  height: 400px;
-  background-color: #c3c2c2;
-  left: calc(50% - 150px);
-  top: calc(45% - 200px)
+    position: absolute;
+    width: 300px;
+    height: 400px;
+    background-color: #c3c2c2;
+    left: calc(50% - 150px);
+    top: calc(45% - 200px)
 }
 
 .header {
-  font-size: 25px;
-  background-color: #2f5488;
-  padding: 15px;
-  text-align: center;
+    font-size: 25px;
+    background-color: #2f5488;
+    padding: 15px;
+    text-align: center;
+    color: white;
 }
 
 .calendar-wrapper {
-  position: relative;
-  font-size: 20px;
-  vertical-align: center;
-  text-align: center;
-  color: black;
-  width: calc(100% - 2px);
-  height: 50px;
-  border: 1px solid black;
-  background-color: white;
-  z-index: 1;
+    position: relative;
+    font-size: 20px;
+    vertical-align: center;
+    text-align: center;
+    color: black;
+    width: calc(100% - 2px);
+    height: 50px;
+    border: 1px solid black;
+    background-color: white;
+    z-index: 1;
 }
 
 .party-size {
-  font-size: 20px;
-  vertical-align: center;
-  text-align: center;
-  color: black;
-  width: 100%;
-  height: 50px;
-  background-color: white;
+    font-size: 20px;
+    vertical-align: center;
+    text-align: center;
+    color: black;
+    width: 100%;
+    height: 50px;
+    background-color: white;
 }
 
 .party-size select {
-  width: 100%;
-  height: 100%;
-  padding-left: 50%;
+    width: 100%;
+    height: 100%;
+    padding-left: 50%;
 }
 
 .calendar-container main{
-  position: relative;
-  z-index: 2;
+    position: relative;
+    z-index: 2;
 }
 
 .time {
-  font-size: 20px;
-  vertical-align: center;
-  text-align: center;
-  color: white;
-  width: 100%;
-  height: 50px;
-  background-color: #5d5c5c;
+    font-size: 20px;
+    vertical-align: center;
+    text-align: center;
+    color: white;
+    width: 100%;
+    height: 50px;
+    background-color: #5d5c5c;
 }
 
 .time select {
-  width: 100%;
-  height: 100%;
-  padding-left: calc(50% - 15px);
+    width: 100%;
+    height: 100%;
+    padding-left: calc(50% - 15px);
 }
 
 .search-results {
-  background-color: #2f5488;
-  width: 100%;
-  height: 100px;
+    background-color: #35527c;
+    width: 100%;
+    height: 100px;
 }
 
 .time-result button {
-  width: 100px;
-  height: 45px;
-  top: 50%;
-  left: 50%;
-  transform: translate(100%, 50%);
-
+    width: 100px;
+    height: 45px;
+    top: 50%;
+    left: 50%;
+    transform: translate(100%, 50%);
 }
+
 .no-available {
-  color: white;
-  font-size: 25px;
-  transform: translate(17%, 85%);
+    color: white;
+    font-size: 25px;
+    transform: translate(17%, 85%);
 }
 
 #overlay {
@@ -106,6 +107,8 @@
 }
 
 #close {
+    color: white;
+    background-color: #325381;
     margin-top: 3%;
     margin-left: 85%;
 }
@@ -118,7 +121,18 @@
     width: 70%;
     max-width: 600px;
     height: 450px;
-    background: white;
+    background: #325381;
     color: #000;
     overflow: hidden;
+}
+
+.guest-form-wrapper input {
+    padding: 15px;
+    margin: 10px;
+}
+
+.guest-form-wrapper textarea {
+    padding: 20px;
+    width: 425px;
+    height: 125px;
 }

@@ -75,28 +75,28 @@ class GuestForm extends React.Component {
         }
         fetch(this.props.url + "/slots/" + this.props.slotId + '/', packet)
             .then(res => res.json())
-            .then(console.log)
+            .then()
     }
 
 
 
 
     render() {
-        console.log(this.props.slotId)
         return(
             <div id="overlay">
                 <div className='guest-form-wrapper'>
                     <div id="close" onClick={this.onClickHandler}>Close</div>
+                    <div className="header">Make your reservation Online!</div>
                         <form onSubmit={this.onSubmitHandler}>
 
                             <input name="first-name" type="text" onChange={this.onChangeHandler}
                                    value={this.state.first_name || '' } placeholder="First Name" />
                             <input name="last-name" type="text" onChange={this.onChangeHandler}
-                                   value={this.state.last_name || '' } placeholder="Last Name" /><br />
+                                   value={this.state.last_name || '' } placeholder="Last Name" />
                             <input name="phone-number" type="text" onChange={this.onChangeHandler}
                                    value={this.state.phone_number || '' } placeholder="Phone Number" /><br />
                             <textarea name="reservation-notes" type="text" onChange={this.onChangeHandler}
-                                   value={this.state.reservation_notes || ''} placeholder="Special Requests" /><br />
+                                   value={this.state.reservation_notes || ''} placeholder="Special Requests for the Restaurant" /><br />
                             <input name="submit" type="submit"/>
 
                         </form>
