@@ -5,7 +5,6 @@ import "./App.css"
 class Slot extends React.Component {
 
     onClickHandler = () => {
-        console.log(this.props.slot.id)
         this.props.toggleGuestForm(this.props.slot.id)
     }
 

@@ -137,11 +137,7 @@ class App extends React.Component {
                         TableHost
                     </div>
                     <form>
-                        <div className="calendar-wrapper" onClick={this.toggleCalendar}>
-                            {String(this.state.friendly_date)}
-                            {this.state.calendarClicked ? <DateCalendar date={this.state.date} setDate={this.setDate}/> : null}
-                        </div>
-                        {/*<Calendar onChange={this.setDate} value={this.state.date} name="date" />*/}
+                        <Calendar onChange={this.setDate} value={this.state.date} name="date" />
                         <div className="party-size">
                             <select
                                 name="party-size"
@@ -198,6 +194,7 @@ class App extends React.Component {
                         {this.renderSlots()}
                     </div>
                     {this.state.render_guest_form ? <GuestForm
+                        url={this.state.url}
                         key={this.state.slot_id}
                         slotId={this.state.slot_id} toggleGuestForm={this.toggleGuestForm}/> : null}
                 </div>
