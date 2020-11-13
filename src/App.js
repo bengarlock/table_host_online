@@ -2,17 +2,19 @@ import './App.css';
 import React from 'react'
 import DateCalendar from "./DateCalendar";
 import Calendar from "react-calendar";
+import Slot from "./Slot";
 
 
 class App extends React.Component {
 
     state = {
-        url: "http://127.0.0.1:8000/",
+        url: "http://www.bengarlock.com:8080",
         calendarClicked: false,
         date: new Date(),
         party_size: 2,
         time: "7:00 PM",
-        render_search_results: false
+        render_search_results: false,
+        slots: [],
     }
 
     componentDidMount() {
@@ -28,7 +30,6 @@ class App extends React.Component {
     }
 
     setDate = (date) => {
-
         const full_months = [
             "January",
             "February",
@@ -53,11 +54,9 @@ class App extends React.Component {
             "Saturday"
         ]
 
-        console.log(date)
         let new_date = new Date(date)
 
         if (typeof new_date === 'object') {
-
             const month = full_months[new_date.getMonth()]
             const day = new_date.getDate()
             const day_of_week = full_weekday[new_date.getDay()]
@@ -66,42 +65,26 @@ class App extends React.Component {
             this.setState({
                 friendly_date: friendly_date,
                 date: new_date
-            })
+            }, () => this.renderSearchResults(new_date.getFullYear(), new_date.getMonth() + 1, new_date.getDate()))
         }
     }
 
     onChangeHandler = (e) => {
-        console.log(e)
         if (e.target.name === 'party-size') {
             this.setState({
-                party_size: e.target.value
-            })
+                party_size: Number(e.target.value)
+            }, () => this.renderSearchResults())
         } else if (e.target.name === "time") {
             this.setState({
                 time: e.target.value
-            })
+            }, () => this.renderSearchResults())
         } else if (e.target.name === "date") {
-
             this.setState({
                 date: e.target.value
-            })
+            }, () => this.renderSearchResults())
         }
     }
 
-    onSubmitHandler = (e) => {
-        e.preventDefault()
-        console.log(this.state.date)
-
-        // let date = this.state.date
-        // console.log(date)
-        // let url = this.state.url + "books/" + (date.getFullYear() + '-' +
-        //     ('0' + (date.getMonth()+1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2))
-        // fetch(url)
-        //     .then(res=> res.json())
-        //     .then(console.log)
-
-
-    }
 
     toggleSearchResults = () => {
         this.setDate({
@@ -109,19 +92,44 @@ class App extends React.Component {
         })
     }
 
-    renderSearchResults = () => {
+    renderSearchResults = (year, month, day) => {
+        const url = `${this.state.url}/books?date=${year}-${month}-${day}`
 
+        fetch(url)
+            .then(res => res.json())
+            .then(book => {
+                if (book[0]) {
+                    this.setState({
+                        slots: book[0].slots
+                    })
+                }
+            })
     }
 
+    renderSlots = () => {
+        // let timesArray = this.state.slots.map(slot => slot.time).sort()
+        // let timesArrayFinal = [...new Set(timesArray)]
+        // let primaryIndex = timesArrayFinal.indexOf(this.state.time)
+        // let earlierTimeIndex = timesArrayFinal[primaryIndex - 1]
+        // let laterTimeIndex = timesArrayFinal[primaryIndex + 1]
+
+
+        const bookedCheck = this.state.slots.filter(slot => slot.booked === false)
+        const partySizeCheck = bookedCheck.filter(slot => slot.party_size === this.state.party_size)
+        const timeCheck = partySizeCheck.filter(slot => slot.time === this.state.time)
+        const final = [...new Set(timeCheck)]
+        return final.map(slot => <Slot key={slot.id} slot={slot} />)
+    }
+
+
     render(){
-        console.log(this.state.date)
         return (
             <div className="App">
                 <div className="wrapper">
                     <div className="header">
                         TableHost
                     </div>
-                    <form onSubmit={this.onSubmitHandler} >
+                    <form>
                         {/*<div className="calendar-wrapper" onClick={this.toggleCalendar}>*/}
                         {/*    {String(this.state.friendly_date)}*/}
                         {/*    {this.state.calendarClicked ? <DateCalendar date={this.state.date} setDate={this.setDate}/> : null}*/}
@@ -179,10 +187,9 @@ class App extends React.Component {
                               <option value="9:45 PM">9:45 PM</option>
                           </select>
                         </div>
-                        <input type="submit" value="Find a Table" onClick={this.toggleSearchResults}/>
                     </form>
                     <div className='search-results'>
-                        {this.state.render_search_results ? this.renderSearchResults(): null}
+                        {this.renderSlots()}
                     </div>
                 </div>
             </div>
