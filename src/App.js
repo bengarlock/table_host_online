@@ -9,7 +9,7 @@ import GuestForm from "./GuestForm";
 class App extends React.Component {
 
     state = {
-        url: "http://www.bengarlock.com:8080",
+        url: "https://www.bengarlock.com:8080",
         slot_id: '',
         calendarClicked: false,
         date: new Date(),
